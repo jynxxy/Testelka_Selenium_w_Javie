@@ -8,6 +8,7 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.util.GregorianCalendar;
 import java.util.Set;
 
 public class Manage {
@@ -27,6 +28,7 @@ public class Manage {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        Assertions.assertEquals(7, driver.manage().getCookies().size(), "Number of cookies is not what expected");
     }
 
     @AfterEach
@@ -37,7 +39,6 @@ public class Manage {
 
     @Test
     public void gettingAndDeletingCookies() {
-        Assertions.assertEquals(7, driver.manage().getCookies().size(), "Number of cookies is not what expected");
         Cookie cookieSessionId = driver.manage().getCookieNamed("session-id");
         driver.manage().deleteCookieNamed("seassion-id");
         Assertions.assertEquals(6, driver.manage().getCookies().size(), "Number of cookies is not what expected");
@@ -47,6 +48,12 @@ public class Manage {
 
     @Test
     public void addingCookies() {
-
+        Cookie newCookie = new Cookie("test_cookie", "test_value", ".amazon.com". "/",
+                new GregorianCalendar(2022,10,30).getTime(), true, true);
+        driver.manage().addCookie(newCookie);
+        Assertions.assertEquals(8, driver.manage().getCookies().size(), "Number of cookies is not what expected");
+        Cookie secondCookie = new Cookie("test_cookie2", "test_value2");
+        driver.manage().addCookie(secondCookie);
+        Assertions.assertEquals(9, driver.manage().getCookies().size(), "Number of cookies is not what expected");
     }
 }
