@@ -48,12 +48,14 @@ public class Manage {
 
     @Test
     public void addingCookies() {
-        Cookie newCookie = new Cookie("test_cookie", "test_value", ".amazon.com". "/",
+        Cookie newCookie = new Cookie("test_cookie", "test_value", ".amazon.com", "/",
                 new GregorianCalendar(2022,10,30).getTime(), true, true);
         driver.manage().addCookie(newCookie);
         Assertions.assertEquals(8, driver.manage().getCookies().size(), "Number of cookies is not what expected");
         Cookie secondCookie = new Cookie("test_cookie2", "test_value2");
         driver.manage().addCookie(secondCookie);
         Assertions.assertEquals(9, driver.manage().getCookies().size(), "Number of cookies is not what expected");
+        driver.manage().deleteCookie(newCookie);
+        Assertions.assertEquals(8, driver.manage().getCookies().size(), "Number of cookies is not what expected");
     }
 }
