@@ -42,6 +42,11 @@ public class Manage {
         Cookie cookieSessionId = driver.manage().getCookieNamed("session-id");
         driver.manage().deleteCookieNamed("seassion-id");
         Assertions.assertEquals(6, driver.manage().getCookies().size(), "Number of cookies is not what expected");
+
+        // sprawdzenie czy to, co podamy w parametrze jest lub nie jest nullem
+        // asercja po refaktorze
+        Assertions.assertNull(driver.manage().getCookieNamed("session-id"), "Number of cookies is not what expected");
+
         driver.manage().deleteAllCookies();
         Assertions.assertEquals(0, driver.manage().getCookies().size(), "Number of cookies is not what expected");
     }
@@ -51,11 +56,26 @@ public class Manage {
         Cookie newCookie = new Cookie("test_cookie", "test_value", ".amazon.com", "/",
                 new GregorianCalendar(2022,10,30).getTime(), true, true);
         driver.manage().addCookie(newCookie);
+
+        // sprawdzenie czy to, co podamy w parametrze jest lub nie jest nullem
+        // asercja po refaktorze
+        Assertions.assertNotNull(driver.manage().getCookieNamed("test-cookie"), "Cookie doesn't exist");
+
         Assertions.assertEquals(8, driver.manage().getCookies().size(), "Number of cookies is not what expected");
         Cookie secondCookie = new Cookie("test_cookie2", "test_value2");
         driver.manage().addCookie(secondCookie);
+
+        // sprawdzenie czy to, co podamy w parametrze jest lub nie jest nullem
+        // asercja po refaktorze
+        Assertions.assertNotNull(driver.manage().getCookieNamed("test-cookie2"), "Cookie doesn't exist.");
+
         Assertions.assertEquals(9, driver.manage().getCookies().size(), "Number of cookies is not what expected");
         driver.manage().deleteCookie(newCookie);
+
+        // sprawdzenie czy to, co podamy w parametrze jest lub nie jest nullem
+        // asercja po refaktorze
+        Assertions.assertNotNull(driver.manage().getCookieNamed("test-cookie2"), "Cookie isn't deleted.");
+
         Assertions.assertEquals(8, driver.manage().getCookies().size(), "Number of cookies is not what expected");
     }
 }
