@@ -28,12 +28,12 @@ public class Manage {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Assertions.assertEquals(7, driver.manage().getCookies().size(), "Number of cookies is not what expected");
+      //  Assertions.assertEquals(7, driver.manage().getCookies().size(), "Number of cookies is not what expected");
     }
 
     @AfterEach
     public void driverQuit() {
-        driver.close();
+    //    driver.close();
         driver.quit();
     }
 
@@ -77,5 +77,15 @@ public class Manage {
         Assertions.assertNotNull(driver.manage().getCookieNamed("test-cookie2"), "Cookie isn't deleted.");
 
         Assertions.assertEquals(8, driver.manage().getCookies().size(), "Number of cookies is not what expected");
+    }
+
+    @Test
+    public void windowSettings() {
+        Point position = driver.manage().window().getPosition();
+        Assertions.assertEquals(new Point(1000, 0), position, "Position of the windows is now what expected");
+        Dimension size = driver.manage().window().getSize();
+        Assertions.assertEquals(new Dimension(1290, 730), size, "Size of the windows is now what expected");
+        driver.manage().window().fullscreen();
+        driver.manage().window().maximize();
     }
 }
