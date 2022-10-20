@@ -1,10 +1,13 @@
 package Homework_3;
 
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+
+import java.util.Set;
 
 public class Ciasteczka {
 
@@ -23,7 +26,7 @@ public class Ciasteczka {
 
     @AfterEach
     public void driverQuit() {
-        driver.close();
+    //    driver.close();
         driver.quit();
     }
 
@@ -32,8 +35,28 @@ public class Ciasteczka {
         String urlPL = "https://pl.wikipedia.org/wiki/Wikipedia:Strona_g%C5%82%C3%B3wna";
         driver.navigate().to(urlPL);
         Thread.sleep(3000);
-        int test = driver.manage().getCookies().size();
-        System.out.println(test);
+      //1.
+        int numberOfCookies = driver.manage().getCookies().size();
+        System.out.println(numberOfCookies);
+        Assertions.assertEquals(numberOfCookies, driver.manage().getCookies().size());
+      //2.
+        Cookie cookie = new Cookie("test_cookie", "test_value");
+        driver.manage().addCookie(cookie);
+        Assertions.assertNotNull(driver.manage().getCookieNamed("test_cookie"), "That cookie doesn't exist");
+      //3.
+        driver.manage().getCookieNamed("test_cookie");
+        Assertions.assertEquals("test_cookie", cookie.getName());
+      //4.
+        driver.manage().deleteCookie(cookie);
+        Assertions.assertNull(driver.manage().getCookieNamed("test_cookie"), "This cookie exist");
+      //5.
+        driver.manage().deleteCookieNamed("PHP_ENGINE");
+        Assertions.assertNull(driver.manage().getCookieNamed("PHP_ENGINE"), "This cookie exist");
+      //6.
+        Cookie cookie2 = driver.manage().getCookieNamed("plwikimwuser-sessionId");
+        Assertions.assertEquals("pl.wikipedia.org", driver.manage().getCookieNamed("plwikimwuser-sessionId").getDomain());
+        Assertions.assertEquals("/", driver.manage().getCookieNamed("plwikimwuser-sessionId").getPath());
+        Assertions.assertFalse(cookie2.isHttpOnly(), driver.manage().getCookieNamed("plwikimwuser-sessionId").getValue());
     }
 
 
