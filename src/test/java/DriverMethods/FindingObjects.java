@@ -47,4 +47,10 @@ public class FindingObjects {
         int numberOfImage = driver.findElements(By.tagName("img")).size();
     }
 
+    @Test
+    public void findingElementByLinkText() {
+        driver.findElement(By.linkText("Wikisłownik"));
+        driver.findElement(By.partialLinkText("redagować"));
+    }
+
 }
