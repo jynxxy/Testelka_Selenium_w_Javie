@@ -1,11 +1,13 @@
+package DriverMethods;
+
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+
+import java.util.List;
 
 public class FindingObjects {
 
@@ -31,6 +33,18 @@ public class FindingObjects {
         driver.findElement(By.id("searchInput"));
         driver.findElement(By.name("search"));
         driver.findElement(By.className("searchButton"));
+
+        List<WebElement> externalClassElements = driver.findElements(By.className("external"));
+        WebElement elementWithTwoClasses = null;
+        for (WebElement externalClassElement : externalClassElements) {
+            String elementClass = externalClassElement.getAttribute("class");
+            if (elementClass.equals("external text")){
+                elementWithTwoClasses = externalClassElement;
+            }
+        }
+        Assertions.assertTrue(elementWithTwoClasses!=null, "Element was not found");
+
+        int numberOfImage = driver.findElements(By.tagName("img")).size();
     }
 
 }
